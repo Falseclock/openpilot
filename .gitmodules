@@ -3,7 +3,7 @@
   url = https://github.com/sunnyhaibin/panda.git
 [submodule "opendbc"]
   path = opendbc_repo
-  url = https://github.com/bryangerlach/opendbc.git
+	url = https://github.com/Falseclock/opendbc.git
 [submodule "msgq"]
   path = msgq_repo
   url = https://github.com/commaai/msgq.git
