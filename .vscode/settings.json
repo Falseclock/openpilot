@@ -30,5 +30,10 @@
     "vector": "c",
     "xstring": "c",
     "xutility": "c"
-  }
+  },
+  "remote.WSL.debug": false,
+  "remote.WSL.downloadInBackground": false,
+  "remote.WSL.experimental.scriptLessStartup": true,
+  "terminal.integrated.defaultProfile.windows": "Ubuntu-24.04 (WSL)",
+  "chatgpt.runCodexInWindowsSubsystemForLinux": true
 }
