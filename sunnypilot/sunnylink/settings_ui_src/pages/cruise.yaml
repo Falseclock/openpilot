@@ -210,6 +210,114 @@ sections:
         key: SpeedLimitOffsetType
         op: '>'
         value: 0
+    - key: HkgTsrAlarmOffsetType
+      widget: multiple_button
+      title: Cluster TSR Alarm
+      section: Cluster TSR Alarm
+      section_description: openpilot owns the cluster's traffic-sign over-speed alarm (red sign, blinking,
+        chime) with a deterministic, configurable trigger instead of the camera's stock behavior.
+      description: Off restores the stock camera behavior.
+      options:
+      - value: 0
+        label: 'Off'
+      - value: 1
+        label: Fixed
+      - value: 2
+        label: Percentage
+      visibility:
+      - type: capability
+        field: brand
+        equals: hyundai
+    - key: HkgTsrAlarmSource
+      section: Cluster TSR Alarm
+      widget: multiple_button
+      title: TSR Alarm Speed Source
+      description: Real speed triggers at true wheel speed (the speedometer over-reads ~5% by regulation);
+        Cluster speed matches what the driver sees on the dial.
+      options:
+      - value: 0
+        label: Real speed
+      - value: 1
+        label: Cluster speed
+      visibility:
+      - type: capability
+        field: brand
+        equals: hyundai
+      - type: param_compare
+        key: HkgTsrAlarmOffsetType
+        op: '>'
+        value: 0
+    - key: HkgTsrAlarmOffsetKph
+      section: Cluster TSR Alarm
+      widget: option
+      title: TSR Alarm Offset
+      min: -10
+      max: 10
+      step: 1
+      unit:
+        metric: km/h
+        imperial: km/h
+      visibility:
+      - type: capability
+        field: brand
+        equals: hyundai
+      - type: param
+        key: HkgTsrAlarmOffsetType
+        equals: 1
+      - type: param
+        key: IsMetric
+        equals: true
+    - key: HkgTsrAlarmOffsetMph
+      section: Cluster TSR Alarm
+      widget: option
+      title: TSR Alarm Offset
+      min: -5
+      max: 5
+      step: 1
+      unit:
+        metric: mph
+        imperial: mph
+      visibility:
+      - type: capability
+        field: brand
+        equals: hyundai
+      - type: param
+        key: HkgTsrAlarmOffsetType
+        equals: 1
+      - type: param
+        key: IsMetric
+        equals: false
+    - key: HkgTsrAlarmOffsetPct
+      section: Cluster TSR Alarm
+      widget: option
+      title: TSR Alarm Offset
+      min: -15
+      max: 15
+      step: 1
+      unit:
+        metric: '%'
+        imperial: '%'
+      visibility:
+      - type: capability
+        field: brand
+        equals: hyundai
+      - type: param
+        key: HkgTsrAlarmOffsetType
+        equals: 2
+    - key: HkgTsrAlarmChime
+      section: Cluster TSR Alarm
+      widget: toggle
+      title: TSR Alarm Chime
+      description: Audible cluster chime phase of the alarm. When off, the alarm stays visual only
+        (red sign and blinking).
+      visibility:
+      - type: capability
+        field: brand
+        equals: hyundai
+      - type: param_compare
+        key: HkgTsrAlarmOffsetType
+        op: '>'
+        value: 0
 - id: smart_cruise
   title: Smart Cruise Control
   description: ''

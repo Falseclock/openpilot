@@ -264,6 +264,14 @@ inline static std::unordered_map<std::string, ParamKeyAttributes> keys = {
     {"SpeedLimitPolicy", {PERSISTENT | BACKUP, INT, "3"}},
     {"SpeedLimitValueOffset", {PERSISTENT | BACKUP, INT, "0"}},
 
+    // Cluster TSR over-speed alarm (HKG; openpilot-owned corridor, see opendbc tsr_overspeed_ext)
+    {"HkgTsrAlarmOffsetType", {PERSISTENT | BACKUP, INT, "1"}},   // 0 off (stock) | 1 fixed | 2 percentage
+    {"HkgTsrAlarmSource", {PERSISTENT | BACKUP, INT, "0"}},       // 0 real speed (vEgo) | 1 cluster speed
+    {"HkgTsrAlarmOffsetKph", {PERSISTENT | BACKUP, INT, "5"}},    // fixed margin when the car cluster is km/h
+    {"HkgTsrAlarmOffsetMph", {PERSISTENT | BACKUP, INT, "3"}},    // fixed margin when the car cluster is mph
+    {"HkgTsrAlarmOffsetPct", {PERSISTENT | BACKUP, INT, "5"}},    // percentage margin of the displayed limit
+    {"HkgTsrAlarmChime", {PERSISTENT | BACKUP, BOOL, "1"}},       // audible phase on/off (visuals always run)
+
     // Smart Cruise Control
     {"MapTargetVelocities", {CLEAR_ON_ONROAD_TRANSITION, STRING}},
     {"SmartCruiseControlMap", {PERSISTENT | BACKUP, BOOL, "0"}},
