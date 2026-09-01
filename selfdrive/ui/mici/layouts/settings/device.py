@@ -10,6 +10,7 @@ from openpilot.common.time_helpers import system_time_valid
 from openpilot.system.ui.widgets.scroller import NavRawScrollPanel, NavScroller
 from openpilot.selfdrive.ui.mici.widgets.button import BigButton, BigCircleButton
 from openpilot.selfdrive.ui.mici.widgets.dialog import BigDialog, BigConfirmationDialog
+from openpilot.selfdrive.ui.mici.widgets.dialog import BigInputDialog
 from openpilot.selfdrive.ui.mici.widgets.pairing_dialog import PairingDialog
 from openpilot.selfdrive.ui.mici.onroad.driver_camera_dialog import DriverCameraDialog
 from openpilot.selfdrive.ui.mici.layouts.onboarding import TrainingGuide, TermsPage
