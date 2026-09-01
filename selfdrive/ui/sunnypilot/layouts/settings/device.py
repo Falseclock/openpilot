@@ -9,6 +9,7 @@ from openpilot.selfdrive.ui.onroad.driver_camera_dialog import DriverCameraDialo
 from openpilot.selfdrive.ui.ui_state import ui_state
 from openpilot.system.hardware import HARDWARE
 from openpilot.system.ui.lib.application import gui_app
+from openpilot.system.ui.sunnypilot.widgets.input_dialog import InputDialogSP
 from openpilot.system.ui.lib.multilang import tr
 from openpilot.system.ui.sunnypilot.widgets.list_view import option_item_sp, multiple_button_item_sp, button_item_sp, \
   dual_button_item_sp, Spacer
@@ -108,6 +109,15 @@ class DeviceLayoutSP(DeviceLayout):
       right_callback=self._power_off_prompt
     )
 
+    # sunnyconf pairing code — the secret you type into the sunnyconf app to pair a phone/head unit over Wi-Fi
+    self._pairing_code_btn = button_item_sp(
+      lambda: tr("Sunnyconf Pairing Code"),
+      lambda: tr("CHANGE") if (self._params.get("SunnyconfPairingCode") or "") else tr("SET"),
+      description=lambda: tr("Code you type into the sunnyconf app to pair a device over Wi-Fi. "
+                             "Leave empty to disable pairing."),
+      callback=self._set_pairing_code,
+    )
+
     items = [
       text_item(lambda: tr("Dongle ID"), self._params.get("DongleId") or (lambda: tr("N/A"))),
       LineSeparator(),
@@ -118,6 +128,8 @@ class DeviceLayoutSP(DeviceLayout):
       self._reset_calib_btn,
       LineSeparator(),
       button_item_sp(lambda: tr("Change Language"), lambda: tr("CHANGE"), callback=self._show_language_dialog),
+      LineSeparator(),
+      self._pairing_code_btn,
       LineSeparator(),
       self._device_wake_mode,
       LineSeparator(),
@@ -185,6 +197,17 @@ class DeviceLayoutSP(DeviceLayout):
     label = tr("Always On") if value == 0 else f"{value}" + tr("m") if value < 60 else f"{value // 60}" + tr("h")
     label += tr(" (Default)") if value == 1800 else ""
     return label
+
+  def _set_pairing_code(self):
+    # Keyboard writes SunnyconfPairingCode on CONFIRM (InputDialogSP handles the put via param=). The daemon
+    # reads it as the pairing secret; password_mode hides it as you type since it grants config access.
+    InputDialogSP(
+      title=tr("Sunnyconf Pairing Code"),
+      sub_title=tr("Enter this code in the sunnyconf app to pair a device"),
+      current_text=self._params.get("SunnyconfPairingCode") or "",
+      param="SunnyconfPairingCode",
+      password_mode=True,
+    ).show()
 
   def _update_state(self):
     super()._update_state()

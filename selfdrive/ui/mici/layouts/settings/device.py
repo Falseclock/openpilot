@@ -338,10 +338,24 @@ class DeviceLayoutMici(NavScroller):
     terms_btn = BigButton("terms &\nconditions", "", gui_app.texture("icons_mici/settings/device/info.png", 64, 64))
     terms_btn.set_click_callback(lambda: gui_app.push_widget(ReviewTermsPage()))
 
+    # sunnyconf pairing code — secret typed into the sunnyconf app to pair a device over Wi-Fi
+    pairing_code_btn = BigButton("pairing\ncode",
+                                 "Set" if (ui_state.params.get("SunnyconfPairingCode") or "") else "Not set",
+                                 gui_app.texture("icons_mici/settings/device/info.png", 64, 64))
+
+    def _open_pairing_code():
+      def _save(code):
+        ui_state.params.put("SunnyconfPairingCode", code or "")
+        pairing_code_btn.set_value("Set" if code else "Not set")
+      cur = ui_state.params.get("SunnyconfPairingCode") or ""
+      gui_app.push_widget(BigInputDialog("enter pairing code...", cur, minimum_length=0, confirm_callback=_save))
+    pairing_code_btn.set_click_callback(_open_pairing_code)
+
     self._scroller.add_widgets([
       DeviceInfoLayoutMici(),
       UpdateOpenpilotBigButton(),
       PairBigButton(),
+      pairing_code_btn,
       review_training_guide_btn,
       driver_cam_btn,
       terms_btn,

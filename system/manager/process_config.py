@@ -201,4 +201,10 @@ if os.path.exists("../../third_party/copyparty/copyparty-sfx.py"):
   copyparty_args += ["-q"]
   procs += [NativeProcess("copyparty-sfx", "third_party/copyparty", ["./copyparty-sfx.py", *copyparty_args], and_(only_offroad, use_copyparty))]
 
+# sunnyconf — local schema-driven config daemon (HTTP + mDNS over WiFi). Runs onroad AND offroad so
+# settings stay reachable on a parked car. Registered only when the submodule is checked out, so a
+# missing/uninitialized sunnyconf/ never crash-loops the manager.
+if os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "sunnyconf", "daemon", "main.py")):
+  procs.append(PythonProcess("sunnyconf", "sunnyconf.daemon.main", always_run, restart_if_crash=True))
+
 managed_processes = {p.name: p for p in procs}

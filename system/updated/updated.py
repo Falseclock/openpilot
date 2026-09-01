@@ -112,6 +112,10 @@ def setup_git_options(cwd: str) -> None:
     ("protocol.version", "2"),
     ("gc.auto", "0"),
     ("gc.autoDetach", "false"),
+    # a submodule that first appears in the fetched commits (e.g. sunnyconf) is unknown to the current
+    # checkout, and the default on-demand recursion then fails the whole fetch. Submodules are handled
+    # explicitly after checkout (submodule sync + update --init --recursive); fetch must not recurse.
+    ("fetch.recurseSubmodules", "false"),
   ]
   for option, value in git_cfg:
     run(["git", "config", option, value], cwd)
